@@ -1,0 +1,15 @@
+SENTINEL FIELD REPORT — PROCESSED
+001. alert level five detected in northern sector
+002. ✦ action: confirm coordinates with agent bulus
+003. classified: target has been relocated
+004. the perimeter was breached at 03:47 local time
+005. extra spaces were not cleaned before logging
+006. classified: secondary site compromised
+007. normal report line with no issues
+008. ✦ action: send backup to eastern checkpoint
+009. everything was fine until it wasn't
+010. another normal line from the field
+011. classified: the director has been briefed
+012. short line
+013. this line contains the word reverse in it so it gets special treatment
+014. a very long line that goes on and on past eighty characters and should be flagged accordingly by your pipeline when it encounters it during processing
