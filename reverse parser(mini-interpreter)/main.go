@@ -8,8 +8,6 @@ import (
 )
 
 
-var val int
-
 
 func main()  {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -41,25 +39,15 @@ func main()  {
 		}
 		
 
-		for i, r := range ret {
+		for _, r := range ret {
 			if r == "-" || r == "+" || r == "*" || r == "/" {
 
 
 				if len(stack) < 2 {
 					fmt.Println("Error: Not enough input.")
-					continue
-				} else {
-					b := r[i]
-					num := 0
-					for i := 0; i < len(r); i++ {
-						if b != '0' && b != '1' {
-							fmt.Println("Error: invalid binary input")
-							break
-						}
-						num = num*2 + int(b - '0')
-					}
-					fmt.Println(num)
-				}
+					break
+				} 
+				
 				right := stack[len(stack)-1]
 				stack = stack[:len(stack)-1]
 
@@ -67,23 +55,38 @@ func main()  {
 				stack = stack[:len(stack)-1]
 
 				var result int 
+
 				switch r {
 				case "+":
-					result := left + right
-					fmt.Println(result)
+					result = left + right
+				
 				case "-":
-					result := left - right
-					fmt.Println(result)
+					result = left - right
+					
 
 				case "*":
-					result := left * right
-					fmt.Println(result)
+					result = left * right
+				
 				case "/":
-					result := left / right
-					fmt.Println(result)
+					result = left / right
+				
 				}
 				stack = append(stack, result)
+
+			} else {
+				num := 0
+				for j := 0; j < len(r); j++ {
+					c := r[j]
+					if c < '0' || c > '9' {
+						fmt.Println("Error: Invalid decimal")
+					
+					}
+					num = num*10 + int(c - '0')
+				}
+				stack = append(stack, num)
+
 			}
+
 		}
 
 	}
