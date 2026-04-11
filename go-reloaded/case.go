@@ -14,19 +14,20 @@ func caseTransFromation(s string) string {
 		switch w[i] {
 
 		case "(cap,":
-			w[i+1] = strings.Trim(w[i+1], ")")
+			if w[i] == "(cap," {
+				w[i+1] = strings.Trim(w[i+1], ")")
 
-			n, err := strconv.Atoi(w[i+1])
-			if err != nil {
-				fmt.Println(err)
+				n, err := strconv.Atoi(w[i+1])
+				if err != nil {
+					fmt.Println(err)
+				}
+
+				for j := 1; j <= n; j++ {
+					w[i-j] = strings.ToUpper(string(w[i-j][0])) + strings.ToLower(w[i-j][1:len(w[i-j])])
+				}
+				w = append(w[:i], w[i+2:]...)
+				i--
 			}
-
-			for j := 1; j <= n; j++ {
-				w[i-j] = strings.ToUpper(string(w[i-j][0])) + strings.ToLower(w[i-j][1:len(w[i-j])])
-			}
-			w = append(w[:i], w[i+2:]...)
-			i--
-
 		case "(up,":
 			w[i+1] = strings.Trim(w[i+1], ")")
 			n, err := strconv.Atoi(w[i+1])
@@ -57,6 +58,10 @@ func caseTransFromation(s string) string {
 
 		case "(cap)":
 			w[i-1] = strings.ToUpper(string(w[i-1][0])) + strings.ToLower(w[i-1][1:len(w[i-1])])
+			w = append(w[:i], w[i+1:]...)
+			i--
+		case "(up)":
+			w[i-1] = strings.ToUpper(w[i-1])
 			w = append(w[:i], w[i+1:]...)
 			i--
 

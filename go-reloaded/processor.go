@@ -9,15 +9,16 @@ func processedText(s string) string {
 	var new []string
 
 	for _, k := range r {
+		k = caseTransFromation(k)
+
 		k = fixArticle(k)
 		k = fixPunctuation(k)
 		k = fixSingleQuote(k)
 		k = conversion(k)
-		k = caseTransFromation(k)
 		k = singleUp(k)
 
 		new = append(new, k)
 	}
-	return strings.Join(new, " ")
+	return strings.Join(new, "\n")
 
 }

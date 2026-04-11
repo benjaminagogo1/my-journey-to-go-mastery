@@ -26,11 +26,13 @@ func main() {
 
 	}
 
-	processedText := string(input)
+	result := processedText(string(input))
+	// result += "\n"
 
-	err = os.WriteFile(outputFile, []byte(processedText), 0644)
+	err = os.WriteFile(outputFile, []byte(result), 0644)
 	if err != nil {
 		fmt.Println("Error: failed to write outputfile.", err)
+		return
 	}
 	fmt.Printf("Succesfully processed! %s -> %s\n", inputFile, outputFile)
 

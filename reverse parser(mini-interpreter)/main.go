@@ -95,3 +95,27 @@ func main()  {
 
 
 
+
+
+
+
+func mai() {
+	s := "1E"
+	num := 0
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		value := 0
+		if c >= '0' && c <= '9' {
+			value = int(c - '0')
+		}
+		if c >= 'A' && c <= 'F' {
+			value = int(c-'A') + 10
+		} else if c >= 'a' && c <= 'f' {
+			value = int(c-'a') + 10
+		}
+		num = num*16 + value
+
+	}
+	fmt.Println(num)
+
+}
