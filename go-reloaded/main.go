@@ -27,7 +27,6 @@ func main() {
 	}
 
 	result := processedText(string(input))
-	// result += "\n"
 
 	err = os.WriteFile(outputFile, []byte(result), 0644)
 	if err != nil {
