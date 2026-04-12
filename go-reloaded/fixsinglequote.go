@@ -1,10 +1,10 @@
 package main
 
-// import (
-// 	"regexp"
-// )
+import (
+	"regexp"
+)
 
-// func fixSingleQuote(s string) string {
-// 	res := regexp.MustCompile(`'\s*(.*?)\s*'`)
-// 	return res.ReplaceAllString(s, "'$1'")
-// }
+func fixSingleQuote(s string) string {
+	res := regexp.MustCompile(`'\s*(.*?)\s*'`)
+	return res.ReplaceAllString(s, "'$1'")
+}

@@ -142,24 +142,70 @@
 // 	fmt.Println(uppcase("This is so exciting (up, 2)"))
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"strings"
+// 	"unicode"
+// 	// "strings"
+// 	// "unicode"
+// )
+
+// func ma(s string) string {
+// 	c := []rune(s)
+// 	var result []rune
+
+// 	for i := 0; i < len(c); i++ {
+// 		if unicode.IsLetter(c[i]) || unicode.IsSpace(c[i]) {
+// 			result = append(result, c[i])
+// 		}
+// 	}
+// 	r := strings.Join(strings.Fields(string(result)), " ")
+// 	return r
+// // }
+
+// func count(s string) string {
+// 	letters := 0
+// 	b := 0
+// 	for _, r := range s {
+// 		if unicode.IsLetter(r) {
+// 			letters++
+// 		}
+// 		if unicode.IsPunct(r) {
+// 			b++
+// 		}
+// 	}
+// 	out := len(strings.Fields(s))
+// 	h := strings.Count(s, " ")
+
+// 	return fmt.Sprint("Number of letters: ", letters, " \n"+"space: ", out, "\n"  + "words: ", h, "\n", "Punct: ", b)
+
+// }
+
+// func main() {
+
+// 	fmt.Println(count(",, hello , ;world ! . , : benjamin ., ,. "))
+// }
+
 package main
 
 import (
 	"fmt"
 	"strings"
-	"unicode"
 )
 
-func ma(s string) string {
-	
+func main() {
+	s := "she went to the (up) market"
+	w := strings.Fields(s)
+	for i := 0; i < len(w); i++ {
+		w[i] = strings.Trim(w[i], "()")
+		if w[i] == "up" {
+			w[i-1] = strings.ToUpper(w[i-1])
+			w = append(w[:i], w[i+1])
+			i--
+		}
+	}
+	fmt.Println(w)
 
-	ben := strings.TrimFunc(s, func(r rune) bool {
-		return !unicode.IsLetter(r)
-	})
-
-	return ben
-}
-
-func main()  {
-	fmt.Println(ma(",, hello , ;world ! . , : benjamin ., ,. "))
 }
