@@ -41,13 +41,13 @@
 // 	fmt.Println(result)
 // }
 
-package main
+// package main
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-)
+// import (
+// 	"fmt"
+// 	"strconv"
+// 	"strings"
+// )
 
 // func hew(s []string) string {
 // 	var result []string
@@ -116,28 +116,50 @@ import (
 // 	return r
 // }
 
-func uppcase(s string) string {
-	words := strings.Fields(s)
+// func uppcase(s string) string {
+// 	words := strings.Fields(s)
 
-	for i := 0; i < len(words)-1; i++ {
-		switch words[i] {
-		case "(up,":
-			words[i+1] = strings.Trim(words[i+1], ")")
-			num, err := strconv.Atoi(words[i+1])
-			if err != nil {
-				fmt.Println(err)
-			}
-			for j := 1; j <= num; j++ {
-				words[i-j] = strings.ToUpper(words[i-j])
-			}
-			words = append(words[:i], words[i+2:]...)
-			i--
-		}
-	}
-	return strings.Join(words, " ")
+// 	for i := 0; i < len(words)-1; i++ {
+// 		switch words[i] {
+// 		case "(up,":
+// 			words[i+1] = strings.Trim(words[i+1], ")")
+// 			num, err := strconv.Atoi(words[i+1])
+// 			if err != nil {
+// 				fmt.Println(err)
+// 			}
+// 			for j := 1; j <= num; j++ {
+// 				words[i-j] = strings.ToUpper(words[i-j])
+// 			}
+// 			words = append(words[:i], words[i+2:]...)
+// 			i--
+// 		}
+// 	}
+// 	return strings.Join(words, " ")
 
+// // }
+
+// func main() {
+// 	fmt.Println(uppcase("This is so exciting (up, 2)"))
+// }
+
+package main
+
+import (
+	"fmt"
+	"strings"
+	"unicode"
+)
+
+func ma(s string) string {
+	
+
+	ben := strings.TrimFunc(s, func(r rune) bool {
+		return !unicode.IsLetter(r)
+	})
+
+	return ben
 }
 
-func main() {
-	fmt.Println(uppcase("This is so exciting (up, 2)"))
+func main()  {
+	fmt.Println(ma(",, hello , ;world ! . , : benjamin ., ,. "))
 }

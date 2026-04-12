@@ -9,10 +9,10 @@ func processedText(s string) string {
 	// for _, k := range r {
 	k := uppcase(s)
 
-	k = fixArticle(k)
-	k = fixPunctuation(k)
-	k = fixSingleQuote(k)
-	k = conversion(k)
+	// k = fixArticle(k)
+	// k = fixPunctuation(k)
+	// k = fixSingleQuote(k)
+	// k = conversion(k)
 	// k = singleUp(k)
 
 	// new = append(new, k)

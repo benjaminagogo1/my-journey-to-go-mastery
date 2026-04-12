@@ -82,8 +82,8 @@ func uppcase(s string) string {
 	for i := 0; i < len(words)-1; i++ {
 		switch words[i] {
 		case "(up,":
-			words[i+1] = strings.Trim(words[i+1], ")")
-			num, err := strconv.Atoi(words[i+1])
+			wor := strings.Trim(words[i+1], ")\"")
+			num, err := strconv.Atoi(wor)
 			if err != nil {
 				fmt.Println(err)
 			}
