@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func testArticle(t *testing.T) {
+func TestArticle(t *testing.T) {
 	input := fixArticle("There it was. A amazing rock!")
 	expected := "There it was. An amazing rock!"
 	if input != expected {
@@ -12,15 +12,15 @@ func testArticle(t *testing.T) {
 	}
 }
 
-func testCase(t *testing.T) {
-	input := caseTransFromation("Ready, set, go (up) !")
+func TestCase(t *testing.T) {
+	input := uppcase("Ready, set, go (up) !")
 	expected := "Ready, set, GO!"
 	if input != expected {
 		t.Errorf("case failed: got %s, expected %s", input, expected)
 	}
 }
 
-func tesFixPunctuation(t *testing.T) {
+func TesFixPunctuation(t *testing.T) {
 	input := fixPunctuation("I was thinking ... You were right")
 	expected := "I was thinking... You were right"
 	if input != expected {
@@ -28,7 +28,7 @@ func tesFixPunctuation(t *testing.T) {
 	}
 }
 
-func testConversion(t *testing.T) {
+func TestConversion(t *testing.T) {
 	input := conversion("1E (hex) files were added")
 	expected := "30 files were added"
 	if input != expected {
@@ -36,7 +36,7 @@ func testConversion(t *testing.T) {
 	}
 }
 
-func testSingleQuote(t *testing.T) {
+func TestSingleQuote(t *testing.T) {
 	input := fixSingleQuote("As Elton John said: ' I am the most well-known homosexual in the world '")
 	expected := "As Elton John said: 'I am the most well-known homosexual in the world'"
 	if input != expected {

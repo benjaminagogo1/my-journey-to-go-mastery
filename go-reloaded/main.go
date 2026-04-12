@@ -33,6 +33,6 @@ func main() {
 		fmt.Println("Error: failed to write outputfile.", err)
 		return
 	}
-	fmt.Printf("Succesfully processed! %s -> %s\n", inputFile, outputFile)
+	// fmt.Printf("Succesfully processed! %s -> %s\n", inputFile, outputFile)
 
 }
