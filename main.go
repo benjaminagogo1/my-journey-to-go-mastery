@@ -188,24 +188,52 @@
 // 	fmt.Println(count(",, hello , ;world ! . , : benjamin ., ,. "))
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"strings"
+// )
+
+// func main() {
+// 	s := "she went to the (up) market"
+// 	w := strings.Fields(s)
+// 	for i := 0; i < len(w); i++ {
+// 		w[i] = strings.Trim(w[i], "()")
+// 		if w[i] == "up" {
+// 			w[i-1] = strings.ToUpper(w[i-1])
+// 			w = append(w[:i], w[i+1])
+// 			i--
+// 		}
+// 	}
+// 	fmt.Println(w)
+
+// }
+
 package main
 
 import (
 	"fmt"
-	"strings"
+	// "strings"
+	"unicode"
 )
 
-func main() {
-	s := "she went to the (up) market"
-	w := strings.Fields(s)
-	for i := 0; i < len(w); i++ {
-		w[i] = strings.Trim(w[i], "()")
-		if w[i] == "up" {
-			w[i-1] = strings.ToUpper(w[i-1])
-			w = append(w[:i], w[i+1])
-			i--
+func formatam(s string) string {
+	var res []rune
+	b := []rune(s)
+
+	for i := 0; i < len(b); i++ {
+		if !unicode.IsPunct(b[i]) {
+			res = append(res, b[i])
+		}
+		if i > 0 && unicode.IsPunct(b[i]) && unicode.IsSpace(b[i-1]) {
+			res = append(res, b[i])
 		}
 	}
-	fmt.Println(w)
+	return string(res)
 
+}
+
+func main() {
+	fmt.Println(formatam(",, hello , ;world ! . : benjamin ., , ."))
 }
