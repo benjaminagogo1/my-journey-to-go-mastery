@@ -210,30 +210,130 @@
 
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	// "strings"
+// 	"unicode"
+// )
+
+// func formatam(s string) string {
+// 	var res []rune
+// 	b := []rune(s)
+
+// 	for i := 0; i < len(b); i++ {
+// 		if !unicode.IsPunct(b[i]) {
+// 			res = append(res, b[i])
+// 		}
+// 		if i > 0 && unicode.IsPunct(b[i]) && unicode.IsSpace(b[i-1]) {
+// 			res = append(res, b[i])
+// 		}
+// 	}
+// 	return string(res)
+
+// }
+
+// func main() {
+// 	fmt.Println(formatam(",, hello , ;world ! . : benjamin ., , ."))
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"regexp"
+// )
+
+// func reg(s string) string {
+// 	re := regexp.MustCompile(`'\s*(.*?)\s*'`)
+// 	return re.ReplaceAllString(s, "'$1'")
+// }
+
+//	func main()  {
+//		fmt.Println(reg("I am exactly how they describe me: ' awesome '"))
+//		fmt.Println(reg("As Elton John said: ' I am the most well-known homosexual in the world '"))
+//	}
+// package main
+
+// import (
+// 	"fmt"
+// )
+
+// func count(s string) map[string]int {
+// 	c := map[string]int{}
+// 	//w := strings.Fields(s)
+// 	for _, b := range s {
+// 		c[string(b)]++
+// 	}
+// 	return c
+// }
+// func main() {
+// 	fmt.Println(count("emmanuelmylevelcoiiimmitteeemmanuelmygod"))
+// }
+
+
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"strings"
+// )
+// func hee(s string) string {
+// 	words := strings.Split(s, "'")
+// 	for i := 1; i < len(words); i ++ {
+// 		words[i] = strings.TrimSpace(words[i])
+// 	}
+// 	return strings.Join(words, "'")
+// }
+
+// func main()  {
+// 	fmt.Printf("%q", hee("As Elton John said: ' I am the most well-known homosexual in the world '"))
+// }
+
+
+
+// package main 
+
+// import (
+// 	"fmt"
+// 	"strings"
+// )
+
+// func ana(a, b string) bool {
+// 	a = strings.ToLower(a)
+// 	b = strings.ToLower(b)
+
+// 	for _, r := range b {
+// 		if !strings.Contains(string(a), string(r)) {
+// 			return false
+// 		}
+// 	}
+// 	return true
+// }
+
 package main
 
 import (
 	"fmt"
-	// "strings"
-	"unicode"
+	"strings"
 )
 
-func formatam(s string) string {
-	var res []rune
-	b := []rune(s)
+func feg(s string) string {
+	words := strings.Fields(s)
 
-	for i := 0; i < len(b); i++ {
-		if !unicode.IsPunct(b[i]) {
-			res = append(res, b[i])
-		}
-		if i > 0 && unicode.IsPunct(b[i]) && unicode.IsSpace(b[i-1]) {
-			res = append(res, b[i])
+	for i := 0; i < len(words)-1; i++ {
+		isVowels := strings.ContainsAny("aeiouhAEIOUH", string(words[i+1][0]))
+		if words[i] == "A" && isVowels {
+			words[i] = "An"
+		} else if words[i] == "a" && isVowels {
+			words[i] = "an"
+		} else if words[i] == "An" && !isVowels {
+			words[i] = "A"
+		} else if words[i] == "an" && !isVowels {
+			words[i] = "a"
 		}
 	}
-	return string(res)
-
-}
-
-func main() {
-	fmt.Println(formatam(",, hello , ;world ! . : benjamin ., , ."))
+	return strings.Join(words, " ")
 }
