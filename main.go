@@ -13,11 +13,11 @@
 // 		if c != '0' && c != '1' {
 // 			value = int(c - '0')
 // 		}
-// 		// if c >= 'a' && c <= 'f' {
-// 		// 	value = int(c-'a') + 10
-// 		// } else if c >= 'A' && c <= 'F' {
-// 		// 	value = int(c-'A') + 10
-// 		// }
+// 		if c >= 'a' && c <= 'f' {
+// 			value = int(c-'a') + 10
+// 		} else if c >= 'A' && c <= 'F' {
+// 			value = int(c-'A') + 10
+// 		}
 // 		num = num*10 + value
 
 // 	}
@@ -26,7 +26,7 @@
 
 // }
 
-// func mai() {
+// func main() {
 // 	num := 255
 // 	base := 2
 
@@ -40,6 +40,33 @@
 
 // 	fmt.Println(result)
 // }
+
+package main
+
+import (
+	"fmt"
+	// "strings"
+)
+
+func main() {
+	var x [5]float64
+	x[0] = 98
+	x[1] = 93
+	x[2] = 77
+	x[3] = 82
+	x[4] = 83
+
+	var total float64 = 0
+	for i := 0; i < len(x); i++  {
+		total += x[i]
+	}
+	fmt.Println(total/float64(len(x)))
+}
+
+
+
+
+
 
 // package main
 
@@ -78,10 +105,11 @@
 // 		return word
 // 	}
 // 	return strings.ToUpper(string(word[0])) + strings.ToLower(word[1:])
+
 // }
 
 // func hew(s []string) string {
-// 	result := make([]string, 0, len(s))
+// 	result := []string{}
 
 // 	for _, token := range s {
 
@@ -272,8 +300,6 @@
 // 	fmt.Println(count("emmanuelmylevelcoiiimmitteeemmanuelmygod"))
 // }
 
-
-
 // package main
 
 // import (
@@ -292,9 +318,7 @@
 // 	fmt.Printf("%q", hee("As Elton John said: ' I am the most well-known homosexual in the world '"))
 // }
 
-
-
-// package main 
+// package main
 
 // import (
 // 	"fmt"
@@ -313,27 +337,27 @@
 // 	return true
 // }
 
-package main
+// package main
 
-import (
-	"fmt"
-	"strings"
-)
+// import (
+// 	"fmt"
+// 	"strings"
+// )
 
-func feg(s string) string {
-	words := strings.Fields(s)
+// func feg(s string) string {
+// 	words := strings.Fields(s)
 
-	for i := 0; i < len(words)-1; i++ {
-		isVowels := strings.ContainsAny("aeiouhAEIOUH", string(words[i+1][0]))
-		if words[i] == "A" && isVowels {
-			words[i] = "An"
-		} else if words[i] == "a" && isVowels {
-			words[i] = "an"
-		} else if words[i] == "An" && !isVowels {
-			words[i] = "A"
-		} else if words[i] == "an" && !isVowels {
-			words[i] = "a"
-		}
-	}
-	return strings.Join(words, " ")
-}
+// 	for i := 0; i < len(words)-1; i++ {
+// 		isVowels := strings.ContainsAny("aeiouhAEIOUH", string(words[i+1][0]))
+// 		if words[i] == "A" && isVowels {
+// 			words[i] = "An"
+// 		} else if words[i] == "a" && isVowels {
+// 			words[i] = "an"
+// 		} else if words[i] == "An" && !isVowels {
+// 			words[i] = "A"
+// 		} else if words[i] == "an" && !isVowels {
+// 			words[i] = "a"
+// 		}
+// 	}
+// 	return strings.Join(words, " ")
+// }
