@@ -14,7 +14,6 @@ func processedText(s string) string {
 		k = fixArticle(k)
 		k = fixSingleQuote(k)
 		k = conversion(k)
-		// k = singleUp(k)
 
 		new = append(new, k)
 	}

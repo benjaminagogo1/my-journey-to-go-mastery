@@ -1,10 +1,15 @@
 package main
 
 import (
-	"regexp"
+
+	"strings"
 )
 
+
 func fixSingleQuote(s string) string {
-	res := regexp.MustCompile(`'\s*(.*?)\s*'`)
-	return res.ReplaceAllString(s, "'$1'")
+	words := strings.Split(s, "'")
+	for i := 1; i < len(words); i +=2 {
+		words[i] = strings.TrimSpace(words[i])
+	}
+	return strings.Join(words, "'")
 }

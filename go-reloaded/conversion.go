@@ -6,7 +6,6 @@ import (
 )
 
 func conversion(s string) string {
-	// b := strings.Join(s, " ")
 
 	r := strings.Fields(s)
 	for i := 0; i < len(r); i++ {
