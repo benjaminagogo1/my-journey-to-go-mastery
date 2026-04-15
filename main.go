@@ -355,12 +355,81 @@
 // 		}
 // 	}
 // 	return strings.Join(words, " ")
+// // }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"strings"
+// 	// "unicode"
+// )
+
+// package main
+
+// import (
+// 	"os"
+// 	"fmt"
+// )
+
+// func main()  {
+// 	if len(os.Args) != 3 {
+// 		fmt.Println("Error: Usage: go run . input.txt output.txt")
+// 		return
+// 	}
+
+// 	inputFile := os.Args[1]
+// 	outputFile := os.Args[2]
+
+// 	if inputFile == outputFile {
+// 		fmt.Println("Error: Inputfile  and outputFile can not be thesame",)
+// 		return
+// 	}
+
+// 	input, err := os.ReadFile(inputFile)
+// 	if err != nil {
+// 		fmt.Println("Error: failed to read inputFile", err)
+// 		return
+// 	}
+
+// 	result := processed(string(input))
+
+// 	err = os.WriteFile(outputFile, []byte(result), 0644)
+// 	if err != nil {
+// 		fmt.Println("Error: failed to write outputFile", err)
+// 		return
+// 	}
 // }
 
 package main
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
-	// "unicode"
+	"testing"
 )
+
+func TestArticle(t *testing.T)  {
+	Input := Conversion("1E (hex) files were added")
+	Expected := "30 files were added"
+	if Input != Expected {
+		t.Errorf("TestArticle failde: got: %s,  expected %s", Input, Expected)
+	}
+	t.Log("result:", Expected)
+}
+
+func conversion(s string) string {
+	words := strings.Fields(s)
+	for i := 0; i < len(words); i++{
+		switch words[i] {
+		case "(hex)":
+			n, err  := strconv.ParseInt(words[i-1], 16, 64)
+			if err == nil {
+				words[i-1] = strconv.FormatInt(n, 10)
+				words = append(words[:i], words[i+1:]...)
+				i--
+			}
+		}
+	}
+	return strings.Join(words, " ")
+}
