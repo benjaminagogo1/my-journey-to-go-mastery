@@ -2,9 +2,15 @@ package main
 
 import (
 	"fmt"
+	"strings"
+	"unicode"
+	"strconv"
+	"regexp"
+	// "os"
+	// "testing"
 )
 
-func main() {
+func c() {
 	s := "255"
 	num := 0
 	for i := 0; i < len(s); i++ {
@@ -26,7 +32,7 @@ func main() {
 
 }
 
-func main() {
+func mn() {
 	num := 255
 	base := 2
 
@@ -39,16 +45,10 @@ func main() {
 	}
 
 // 	fmt.Println(result)
-// }
+}
 
-package main
 
-import (
-	"fmt"
-	// "strings"
-)
-
-func main() {
+func m() {
 	var x [5]float64
 	x[0] = 98
 	x[1] = 93
@@ -63,13 +63,7 @@ func main() {
 	fmt.Println(total/float64(len(x)))
 }
 
-package main
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-)
 
 func hew(s []string) string {
 	var result []string
@@ -83,17 +77,12 @@ func hew(s []string) string {
 	}
 	return strings.Join(result, " ")
 }
-
+/*
 func main() {
 	fmt.Println(hew([]string{"hello", "world", "welcome", "(cap)", "golang"}))
 }
+*/
 
-package main
-
-import (
-	"fmt"
-	"strings"
-)
 
 func capitalize(word string) string {
 	if len(word) == 0 {
@@ -103,7 +92,7 @@ func capitalize(word string) string {
 
 }
 
-func hew(s []string) string {
+func h(s []string) string {
 	result := []string{}
 
 	for _, token := range s {
@@ -121,10 +110,11 @@ func hew(s []string) string {
 
 	return strings.Join(result, " ")
 }
-
+/*
 func main() {
 	fmt.Println(hew([]string{"hello", "world", "welcome", "(cap)", "golang"}))
 }
+*/
 
 func singleUp(s string) string {
 	words := strings.Fields(s)
@@ -159,21 +149,13 @@ func uppcase(s string) string {
 	}
 	return strings.Join(words, " ")
 
-// }
-
+}
+/*
 func main() {
 	fmt.Println(uppcase("This is so exciting (up, 2)"))
 }
+*/
 
-package main
-
-import (
-	"fmt"
-	"strings"
-	"unicode"
-	// "strings"
-	// "unicode"
-)
 
 func ma(s string) string {
 	c := []rune(s)
@@ -186,7 +168,7 @@ func ma(s string) string {
 	}
 	r := strings.Join(strings.Fields(string(result)), " ")
 	return r
-// }
+}
 
 // 	"strings"
 // )
@@ -208,184 +190,137 @@ func ma(s string) string {
 
 // package main
 
-// import (
-// 	"fmt"
-// 	// "strings"
-// 	"unicode"
-// )
 
-// func formatam(s string) string {
-// 	var res []rune
-// 	b := []rune(s)
 
-// 	for i := 0; i < len(b); i++ {
-// 		if !unicode.IsPunct(b[i]) {
-// 			res = append(res, b[i])
-// 		}
-// 		if i > 0 && unicode.IsPunct(b[i]) && unicode.IsSpace(b[i-1]) {
-// 			res = append(res, b[i])
-// 		}
-// 	}
-// 	return string(res)
+func formatam(s string) string {
+	var res []rune
+	b := []rune(s)
 
-// }
+	for i := 0; i < len(b); i++ {
+		if !unicode.IsPunct(b[i]) {
+			res = append(res, b[i])
+		}
+		if i > 0 && unicode.IsPunct(b[i]) && unicode.IsSpace(b[i-1]) {
+			res = append(res, b[i])
+		}
+	}
+	return string(res)
+
+}
 
 // func main() {
 // 	fmt.Println(formatam(",, hello , ;world ! . : benjamin ., , ."))
 // }
 
-// package main
 
-// import (
-// 	"fmt"
-// 	"regexp"
-// )
 
-// func reg(s string) string {
-// 	re := regexp.MustCompile(`'\s*(.*?)\s*'`)
-// 	return re.ReplaceAllString(s, "'$1'")
-// }
+func reg(s string) string {
+	re := regexp.MustCompile(`'\s*(.*?)\s*'`)
+	return re.ReplaceAllString(s, "'$1'")
+}
+/*
+func main()  {
+		fmt.Println(reg("I am exactly how they describe me: ' awesome '"))
+		fmt.Println(reg("As Elton John said: ' I am the most well-known homosexual in the world '"))
+	}
+*/
 
-//	func main()  {
-//		fmt.Println(reg("I am exactly how they describe me: ' awesome '"))
-//		fmt.Println(reg("As Elton John said: ' I am the most well-known homosexual in the world '"))
-//	}
-// package main
+func count(s string) map[string]int {
+	c := map[string]int{}
+	//w := strings.Fields(s)
+	for _, b := range s {
+		c[string(b)]++
+	}
+	return c
+}
+/*
+func main() {
+	fmt.Println(count("emmanuelmylevelcoiiimmitteeemmanuelmygod"))
+}
+*/
 
-// import (
-// 	"fmt"
-// )
+func hee(s string) string {
+	words := strings.Split(s, "'")
+	for i := 1; i < len(words); i ++ {
+		words[i] = strings.TrimSpace(words[i])
+	}
+	return strings.Join(words, "'")
+}
+/*
+func main()  {
+	fmt.Printf("%q", hee("As Elton John said: ' I am the most well-known homosexual in the world '"))
+}
+*/
 
-// func count(s string) map[string]int {
-// 	c := map[string]int{}
-// 	//w := strings.Fields(s)
-// 	for _, b := range s {
-// 		c[string(b)]++
-// 	}
-// 	return c
-// }
-// func main() {
-// 	fmt.Println(count("emmanuelmylevelcoiiimmitteeemmanuelmygod"))
-// }
 
-// package main
+func ana(a, b string) bool {
+	a = strings.ToLower(a)
+	b = strings.ToLower(b)
 
-// import (
-// 	"fmt"
-// 	"strings"
-// )
-// func hee(s string) string {
-// 	words := strings.Split(s, "'")
-// 	for i := 1; i < len(words); i ++ {
-// 		words[i] = strings.TrimSpace(words[i])
-// 	}
-// 	return strings.Join(words, "'")
-// }
+	for _, r := range b {
+		if !strings.Contains(string(a), string(r)) {
+			return false
+		}
+	}
+	return true
+}
 
-// func main()  {
-// 	fmt.Printf("%q", hee("As Elton John said: ' I am the most well-known homosexual in the world '"))
-// }
 
-// package main
 
-// import (
-// 	"fmt"
-// 	"strings"
-// )
+func feg(s string) string {
+	words := strings.Fields(s)
 
-// func ana(a, b string) bool {
-// 	a = strings.ToLower(a)
-// 	b = strings.ToLower(b)
+	for i := 0; i < len(words)-1; i++ {
+		isVowels := strings.ContainsAny("aeiouhAEIOUH", string(words[i+1][0]))
+		if words[i] == "A" && isVowels {
+			words[i] = "An"
+		} else if words[i] == "a" && isVowels {
+			words[i] = "an"
+		} else if words[i] == "An" && !isVowels {
+			words[i] = "A"
+		} else if words[i] == "an" && !isVowels {
+			words[i] = "a"
+		}
+	}
+	return strings.Join(words, " ")
+}
 
-// 	for _, r := range b {
-// 		if !strings.Contains(string(a), string(r)) {
-// 			return false
-// 		}
-// 	}
-// 	return true
-// }
+/*
+func main()  {
+	if len(os.Args) != 3 {
+		fmt.Println("Error: Usage: go run . input.txt output.txt")
+		return
+	}
 
-// package main
+	inputFile := os.Args[1]
+	outputFile := os.Args[2]
 
-// import (
-// 	"fmt"
-// 	"strings"
-// )
+	if inputFile == outputFile {
+		fmt.Println("Error: Inputfile  and outputFile can not be thesame",)
+		return
+	}
 
-// func feg(s string) string {
-// 	words := strings.Fields(s)
+	// input, err := os.ReadFile(inputFile)
+	if err != nil {
+		// fmt.Println("Error: failed to read inputFile", err)
 
-// 	for i := 0; i < len(words)-1; i++ {
-// 		isVowels := strings.ContainsAny("aeiouhAEIOUH", string(words[i+1][0]))
-// 		if words[i] == "A" && isVowels {
-// 			words[i] = "An"
-// 		} else if words[i] == "a" && isVowels {
-// 			words[i] = "an"
-// 		} else if words[i] == "An" && !isVowels {
-// 			words[i] = "A"
-// 		} else if words[i] == "an" && !isVowels {
-// 			words[i] = "a"
-// 		}
-// 	}
-// 	return strings.Join(words, " ")
-// // }
+		return
+	}
 
-// package main
+	// result := processed(string(input))
 
-// import (
-// 	"fmt"
-// 	"strings"
-// 	// "unicode"
-// )
-
-// package main
-
-// import (
-// 	"os"
-// 	"fmt"
-// )
-
-// func main()  {
-// 	if len(os.Args) != 3 {
-// 		fmt.Println("Error: Usage: go run . input.txt output.txt")
-// 		return
-// 	}
-
-// 	inputFile := os.Args[1]
-// 	outputFile := os.Args[2]
-
-// 	if inputFile == outputFile {
-// 		fmt.Println("Error: Inputfile  and outputFile can not be thesame",)
-// 		return
-// 	}
-
-// 	input, err := os.ReadFile(inputFile)
-// 	if err != nil {
-// 		fmt.Println("Error: failed to read inputFile", err)
-// 		return
-// 	}
-
-// 	result := processed(string(input))
-
-// 	err = os.WriteFile(outputFile, []byte(result), 0644)
-// 	if err != nil {
-// 		fmt.Println("Error: failed to write outputFile", err)
-// 		return
-// 	}
-// }
-
-package main
-
-import (
-	"strconv"
-	"strings"
-	"testing"
-)
-
+	// err = os.WriteFile(outputFile, []byte(result), 0644)
+	// if err != nil {
+		// fmt.Println("Error: failed to write outputFile", err)
+		return
+	}
+}
+*/
+/*
 func TestArticle(t *testing.T)  {
-	Input := Conversion("1E (hex) files were added")
+	// Input := Conversion("1E (hex) files were added")
 	Expected := "30 files were added"
-	if Input != Expected {
+	// if Input != Expected {
 		t.Errorf("TestArticle failde: got: %s,  expected %s", Input, Expected)
 	}
 	t.Log("result:", Expected)
@@ -405,4 +340,41 @@ func conversion(s string) string {
 		}
 	}
 	return strings.Join(words, " ")
+}
+*/
+
+
+
+func duplicate_count(s string) int {
+	s = strings.ToLower(s)
+	count := make(map[rune]int)
+
+	for _, k := range s {
+		if unicode.IsLetter(k) || unicode.IsDigit(k) {
+			count[k]++
+		}
+		
+	}
+
+	duplicate := 0
+
+	for _, r := range count {
+		if r > 1 {
+			duplicate++
+		}
+	}
+	return duplicate
+}
+
+
+func findShort(s string) int {
+	words := strings.Fields(s)
+
+	shortest := len(words[0])
+	for _, r := range words {
+		if len(r) < shortest {
+			shortest = len(r)
+		}
+	}
+	return shortest
 }
