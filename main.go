@@ -6,11 +6,10 @@ import (
 	"unicode"
 	"strconv"
 	"regexp"
-	// "os"
-	// "testing"
+	
 )
 
-func c() {
+func convertToDecimal() {
 	s := "255"
 	num := 0
 	for i := 0; i < len(s); i++ {
@@ -65,7 +64,7 @@ func m() {
 
 
 
-func hew(s []string) string {
+func upperCase(s []string) string {
 	var result []string
 	for i, words := range s {
 		if s[i] == "(cap)" && i > 0 {
@@ -92,7 +91,7 @@ func capitalize(word string) string {
 
 }
 
-func h(s []string) string {
+func capitalized(s []string) string {
 	result := []string{}
 
 	for _, token := range s {
@@ -170,29 +169,8 @@ func ma(s string) string {
 	return r
 }
 
-// 	"strings"
-// )
 
-// func main() {
-// 	s := "she went to the (up) market"
-// 	w := strings.Fields(s)
-// 	for i := 0; i < len(w); i++ {
-// 		w[i] = strings.Trim(w[i], "()")
-// 		if w[i] == "up" {
-// 			w[i-1] = strings.ToUpper(w[i-1])
-// 			w = append(w[:i], w[i+1])
-// 			i--
-// 		}
-// 	}
-// 	fmt.Println(w)
-
-// }
-
-// package main
-
-
-
-func formatam(s string) string {
+func formatIt(s string) string {
 	var res []rune
 	b := []rune(s)
 
@@ -227,7 +205,6 @@ func main()  {
 
 func count(s string) map[string]int {
 	c := map[string]int{}
-	//w := strings.Fields(s)
 	for _, b := range s {
 		c[string(b)]++
 	}
@@ -239,7 +216,7 @@ func main() {
 }
 */
 
-func hee(s string) string {
+func fixQuote(s string) string {
 	words := strings.Split(s, "'")
 	for i := 1; i < len(words); i ++ {
 		words[i] = strings.TrimSpace(words[i])
@@ -253,7 +230,7 @@ func main()  {
 */
 
 
-func ana(a, b string) bool {
+func anagram(a, b string) bool {
 	a = strings.ToLower(a)
 	b = strings.ToLower(b)
 
@@ -267,7 +244,7 @@ func ana(a, b string) bool {
 
 
 
-func feg(s string) string {
+func fixArticle(s string) string {
 	words := strings.Fields(s)
 
 	for i := 0; i < len(words)-1; i++ {
@@ -367,7 +344,7 @@ func duplicate_count(s string) int {
 }
 
 
-func findShort(s string) int {
+func findShortWord(s string) int {
 	words := strings.Fields(s)
 
 	shortest := len(words[0])
