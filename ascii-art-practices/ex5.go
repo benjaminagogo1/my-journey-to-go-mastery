@@ -1,26 +1,26 @@
 package main
 
-import (
-	"fmt"
-	"os"
-	"strings"
-)
+// import (
+// 	"fmt"
+// 	"os"
+// 	"strings"
+// )
 
-func main()  {
-	k := os.Args[1]
-	file, err := os.ReadFile(k)
-	if err != nil {
-		fmt.Println("Error", err)
-	}
-	content := string(file)
+// func main()  {
+// 	k := os.Args[1]
+// 	file, err := os.ReadFile(k)
+// 	if err != nil {
+// 		fmt.Println("Error", err)
+// 	}
+// 	content := string(file)
 
-	p  := []string{
-		"/ \"
-		"/   \"
+// 	p  := []string{
+// 		"/ \"
+// 		"/   \"
 
-	}
+// 	}
 	
-	for row := 0; row < 8; row ++ {
+// 	for row := 0; row < 8; row ++ {
 		
-	}
-}
+// 	}
+// }
