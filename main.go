@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
 	"strings"
 	"unicode"
-	"strconv"
-	"regexp"
-	
 )
 
 func convertToDecimal() {
@@ -43,9 +42,8 @@ func mn() {
 		num = num / base
 	}
 
-// 	fmt.Println(result)
+	// fmt.Println(result)
 }
-
 
 func m() {
 	var x [5]float64
@@ -56,13 +54,11 @@ func m() {
 	x[4] = 83
 
 	var total float64 = 0
-	for i := 0; i < len(x); i++  {
+	for i := 0; i < len(x); i++ {
 		total += x[i]
 	}
-	fmt.Println(total/float64(len(x)))
+	fmt.Println(total / float64(len(x)))
 }
-
-
 
 func upperCase(s []string) string {
 	var result []string
@@ -76,12 +72,12 @@ func upperCase(s []string) string {
 	}
 	return strings.Join(result, " ")
 }
+
 /*
 func main() {
 	fmt.Println(hew([]string{"hello", "world", "welcome", "(cap)", "golang"}))
 }
 */
-
 
 func capitalize(word string) string {
 	if len(word) == 0 {
@@ -109,6 +105,7 @@ func capitalized(s []string) string {
 
 	return strings.Join(result, " ")
 }
+
 /*
 func main() {
 	fmt.Println(hew([]string{"hello", "world", "welcome", "(cap)", "golang"}))
@@ -149,12 +146,12 @@ func uppcase(s string) string {
 	return strings.Join(words, " ")
 
 }
+
 /*
 func main() {
 	fmt.Println(uppcase("This is so exciting (up, 2)"))
 }
 */
-
 
 func ma(s string) string {
 	c := []rune(s)
@@ -168,7 +165,6 @@ func ma(s string) string {
 	r := strings.Join(strings.Fields(string(result)), " ")
 	return r
 }
-
 
 func formatIt(s string) string {
 	var res []rune
@@ -190,12 +186,11 @@ func formatIt(s string) string {
 // 	fmt.Println(formatam(",, hello , ;world ! . : benjamin ., , ."))
 // }
 
-
-
 func reg(s string) string {
 	re := regexp.MustCompile(`'\s*(.*?)\s*'`)
 	return re.ReplaceAllString(s, "'$1'")
 }
+
 /*
 func main()  {
 		fmt.Println(reg("I am exactly how they describe me: ' awesome '"))
@@ -210,6 +205,7 @@ func count(s string) map[string]int {
 	}
 	return c
 }
+
 /*
 func main() {
 	fmt.Println(count("emmanuelmylevelcoiiimmitteeemmanuelmygod"))
@@ -218,17 +214,17 @@ func main() {
 
 func fixQuote(s string) string {
 	words := strings.Split(s, "'")
-	for i := 1; i < len(words); i ++ {
+	for i := 1; i < len(words); i++ {
 		words[i] = strings.TrimSpace(words[i])
 	}
 	return strings.Join(words, "'")
 }
+
 /*
 func main()  {
 	fmt.Printf("%q", hee("As Elton John said: ' I am the most well-known homosexual in the world '"))
 }
 */
-
 
 func anagram(a, b string) bool {
 	a = strings.ToLower(a)
@@ -241,8 +237,6 @@ func anagram(a, b string) bool {
 	}
 	return true
 }
-
-
 
 func fixArticle(s string) string {
 	words := strings.Fields(s)
@@ -320,8 +314,6 @@ func conversion(s string) string {
 }
 */
 
-
-
 func duplicate_count(s string) int {
 	s = strings.ToLower(s)
 	count := make(map[rune]int)
@@ -330,7 +322,7 @@ func duplicate_count(s string) int {
 		if unicode.IsLetter(k) || unicode.IsDigit(k) {
 			count[k]++
 		}
-		
+
 	}
 
 	duplicate := 0
@@ -343,7 +335,6 @@ func duplicate_count(s string) int {
 	return duplicate
 }
 
-
 func findShortWord(s string) int {
 	words := strings.Fields(s)
 
@@ -354,4 +345,23 @@ func findShortWord(s string) int {
 		}
 	}
 	return shortest
+}
+
+func countLowNum(d []int) []int {
+	result := []int{}
+
+	for _, ch := range d {
+		count := 0
+		for _, r := range d {
+			if r < ch {
+				count++
+			}
+		}
+		result = append(result, count)
+	}
+	return result
+}
+
+func main() {
+	fmt.Println(countLowNum([]int{8, 0, 1, 2, 3, 5}))
 }
