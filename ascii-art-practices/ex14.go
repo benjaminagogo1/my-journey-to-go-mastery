@@ -11,7 +11,6 @@ func bannerWidth(word string, font [][]string) int {
 	for _, ch := range word {
 		index := int(ch) - 32
 		result += len(font[index][0])
-		fmt.Println("Width of hello : ", len(font[index][0]))
 	}
 	return result
 }
@@ -37,7 +36,7 @@ func loadfile(s string) [][]string {
 	return output
 }
 
-func exercise14() {
+func main() {
 	if len(os.Args) < 2 || len(os.Args) > 3 {
 		fmt.Println("Invalid input")
 	}
