@@ -116,3 +116,78 @@ func main() {
 	fmt.Println("\n1: = Available books\n2: = Borrowed Books\n3: = Returned Books")
 
 }
+
+
+
+package main
+
+import (
+	"fmt"
+)
+
+type accountDetail struct {
+	acctName    string
+	acctNumber  int
+	acctBalance float64
+}
+
+func bankTransc(dep float64, acct accountDetail) {
+
+	if dep <= 0 {
+		fmt.Println("Deposit amount must be more than zero.")
+		return
+	}
+	newbal := dep + acct.acctBalance
+	fmt.Printf("Current Balance %.2f\n", newbal)
+
+}
+
+func Exercise2() {
+	fmt.Println("Do you want deposit or withdrawal?\n1: = widthrawal\n2: = Deposit.")
+
+	var choice int
+	fmt.Scan(&choice)
+
+	acct := accountDetail{
+		acctName:    "Benjamin Agogo",
+		acctNumber:  9060561633,
+		acctBalance: 8000.00,
+	}
+
+	if choice == 1 {
+		fmt.Println("widthrawalAmount")
+
+		var widthrawalAmount float64
+		fmt.Scan(&widthrawalAmount)
+
+		if widthrawalAmount > acct.acctBalance {
+			fmt.Println("Insufficient balance")
+			return
+		}
+
+		withdrawal(widthrawalAmount, acct)
+
+	} else if choice == 2 {
+		fmt.Println("Enter the deposit amount: ")
+
+		var amount float64
+
+		fmt.Scan(&amount)
+		realValue := amount
+
+		bankTransc(realValue, acct)
+	} else {
+		fmt.Println("Invalid input. Please, choose between 1 and 2")
+	}
+}
+
+func withdrawal(wid float64, acct accountDetail) {
+	if wid <= 0 {
+		fmt.Println("Widthrawal amount must be more than zero")
+		return
+	}
+
+	balanceAfterDrawal := acct.acctBalance - wid
+
+	fmt.Printf("Your balance: %.2f\n", balanceAfterDrawal)
+}
