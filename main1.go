@@ -191,3 +191,53 @@ func withdrawal(wid float64, acct accountDetail) {
 
 	fmt.Printf("Your balance: %.2f\n", balanceAfterDrawal)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+func ParseFormInput(r *http.Request) (text string, banner string, err error) {
+    err = r.ParseForm()
+    if err != nil {
+    err = fmt.Errorf("failed to parse form %v", err)
+    return
+    }
+    bannerValue := r.FormValue("banner")
+    textValue := r.FormValue("text")
+    if bannerValue == "" {
+    bannerValue = "standard"
+    }
+    textValue = strings.TrimSpace(textValue)
+    if textValue == "" {
+    err = fmt.Errorf("invalid input %s", textValue)
+    return
+        }
+    if bannerValue != "standard" && bannerValue != "shadow" && bannerValue != "thinkertoy" {
+    err = fmt.Errorf("invalid %s", bannerValue)
+    return
+    }
+    return textValue, bannerValue, nil
+    }
+
+
+
+
+
+
