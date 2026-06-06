@@ -241,3 +241,63 @@ func ParseFormInput(r *http.Request) (text string, banner string, err error) {
 
 
 
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func WriteError(w http.ResponseWriter, statusCode int, message string) {
+	if message == "" {
+		return
+	}
+	w.Header().Set("Content-Type", "text/plain")
+	w.WriteHeader(statusCode)
+	fmt.Fprint(w, message)
+
+}
+
+
+
+
+
+
+
+
+package main
+
+import (
+	"net/http"
+)
+
+func ServeStaticFiles(mux *http.ServeMux, dir string)  {
+	if dir == "" {
+		return
+	}
+	fs := http.FileServer(http.Dir(dir))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+}
+
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"html"
+)
+
+func BuildResponse(artOutput string) string {
+	if artOutput == "" {
+		return "<html><body></body></html>"
+	}
+	artOutput = html.EscapeString(artOutput)
+	return fmt.Sprintf("<html><body><pre>%s</pre></body></html>", artOutput)
+}
+
+
+
