@@ -337,3 +337,20 @@ func (t *TemplateCache) Render(w http.ResponseWriter, name string, data any) err
 	}
 	return nil
 }
+
+
+package main
+
+import "net/http"
+
+
+
+func SetResponseHeaders(w http.ResponseWriter, contentType string, statusCode int)  {
+	if contentType == "" {
+		contentType = "text/plain"
+	}
+	w.Header().Set("Content-Type", contentType)
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	w.WriteHeader(statusCode)
+
+}
