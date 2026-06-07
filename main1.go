@@ -301,3 +301,39 @@ func BuildResponse(artOutput string) string {
 
 
 
+
+
+package main
+
+import (
+	"fmt"
+	"html/template"
+	"net/http"
+)
+
+type TemplateCache struct {
+	templ *template.Template
+}
+
+func NewTemplateCache(dir string) (*TemplateCache, error) {
+	tem, err := template.ParseGlob(dir + "/*.html")
+	if err != nil {
+		return nil, err
+	}
+
+	templatVal := TemplateCache{
+		templ: tem,
+	}
+	return &templatVal, nil
+}
+
+func (t *TemplateCache) Render(w http.ResponseWriter, name string, data any) error {
+	if t.templ.Lookup(name) == nil {
+		return fmt.Errorf("template %s is not found", name)
+	}
+	err := t.templ.ExecuteTemplate(w, name, data)
+	if err != nil {
+		return err
+	}
+	return nil
+}
