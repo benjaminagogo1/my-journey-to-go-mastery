@@ -354,3 +354,49 @@ func SetResponseHeaders(w http.ResponseWriter, contentType string, statusCode in
 	w.WriteHeader(statusCode)
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func BannerSelectHandler(w http.ResponseWriter, r *http.Request) {
+	BannerStyle := r.Header.Get("X-Banner-Style")
+
+	if BannerStyle == "" {
+		BannerStyle = "standard"
+	}
+
+	if BannerStyle != "standard" && BannerStyle != "shadow" && BannerStyle != "thinkertoy" {
+		http.Error(w, "invalid banner", http.StatusBadRequest)
+		return
+	}
+
+	font := Loadbanner("banners/" + BannerStyle + ".txt")
+	if font == nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, "Ok")
+}
