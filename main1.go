@@ -400,3 +400,25 @@ func BannerSelectHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprint(w, "Ok")
 }
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+
+func ValidateContentType(r *http.Request, expected string) error {
+	headerValue := r.Header.Get("Content-Type")
+	if headerValue == "" {
+		return fmt.Errorf("empty header")
+	}
+	if !strings.EqualFold(headerValue, expected) {
+		return fmt.Errorf("mismatched value")
+	}
+	return nil
+
+}
