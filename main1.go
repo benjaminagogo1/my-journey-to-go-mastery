@@ -506,3 +506,175 @@ func indexHandle(w http.ResponseWriter, r *http.Request)  {
 func handleAscii(w http.ResponseWriter, r *http.Request)  {
 
 }
+
+
+package main
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+// helper: creates a simple next handler that writes a known status.
+func newStatusHandler(status int) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(status)
+	})
+}
+
+// TestNewRequestLogger_ReturnsNonNil checks that NewRequestLogger
+// returns a non-nil instance.
+func TestNewRequestLogger_ReturnsNonNil(t *testing.T) {
+	logger := NewRequestLogger()
+	if logger == nil {
+		t.Error("expected non-nil RequestLogger, got nil")
+	}
+}
+
+// TestNewRequestLogger_EmptyLogs checks that a new logger has no
+// log entries.
+func TestNewRequestLogger_EmptyLogs(t *testing.T) {
+	logger := NewRequestLogger()
+	logs := logger.GetLogs()
+	if len(logs) != 0 {
+		t.Errorf("expected empty logs, got %d entries", len(logs))
+	}
+}
+
+// TestMiddleware_LogsMethod checks that the request method is
+// captured in the log entry.
+func TestMiddleware_LogsMethod(t *testing.T) {
+	logger := NewRequestLogger()
+	handler := logger.Middleware()(newStatusHandler(http.StatusOK))
+	req := httptest.NewRequest("GET", "/", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	logs := logger.GetLogs()
+	if len(logs) != 1 {
+		t.Fatalf("expected 1 log entry, got %d", len(logs))
+	}
+	if logs[0].Method != "GET" {
+		t.Errorf("expected method 'GET', got %q", logs[0].Method)
+	}
+}
+
+// TestMiddleware_LogsPath checks that the request path is captured
+// in the log entry.
+func TestMiddleware_LogsPath(t *testing.T) {
+	logger := NewRequestLogger()
+	handler := logger.Middleware()(newStatusHandler(http.StatusOK))
+	req := httptest.NewRequest("GET", "/ascii-art", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	logs := logger.GetLogs()
+	if logs[0].Path != "/ascii-art" {
+		t.Errorf("expected path '/ascii-art', got %q", logs[0].Path)
+	}
+}
+
+// TestMiddleware_LogsStatusCode checks that the response status code
+// is captured in the log entry.
+func TestMiddleware_LogsStatusCode(t *testing.T) {
+	logger := NewRequestLogger()
+	handler := logger.Middleware()(newStatusHandler(http.StatusNotFound))
+	req := httptest.NewRequest("GET", "/", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	logs := logger.GetLogs()
+	if logs[0].Status != http.StatusNotFound {
+		t.Errorf("expected status 404, got %d", logs[0].Status)
+	}
+}
+
+// TestMiddleware_LogsTimestamp checks that the timestamp is set
+// in the log entry.
+func TestMiddleware_LogsTimestamp(t *testing.T) {
+	logger := NewRequestLogger()
+	handler := logger.Middleware()(newStatusHandler(http.StatusOK))
+	req := httptest.NewRequest("GET", "/", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	logs := logger.GetLogs()
+	if logs[0].Time.IsZero() {
+		t.Error("expected non-zero timestamp, got zero")
+	}
+}
+
+// TestMiddleware_CallsNextHandler checks that the next handler is
+// called after logging.
+func TestMiddleware_CallsNextHandler(t *testing.T) {
+	logger := NewRequestLogger()
+	called := false
+	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		called = true
+		w.WriteHeader(http.StatusOK)
+	})
+	handler := logger.Middleware()(next)
+	req := httptest.NewRequest("GET", "/", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	if !called {
+		t.Error("expected next handler to be called, but it was not")
+	}
+}
+
+// TestMiddleware_MultipleRequestsLogged checks that multiple requests
+// are all captured in the log.
+func TestMiddleware_MultipleRequestsLogged(t *testing.T) {
+	logger := NewRequestLogger()
+	handler := logger.Middleware()(newStatusHandler(http.StatusOK))
+	for i := 0; i < 3; i++ {
+		req := httptest.NewRequest("GET", "/", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+	}
+	logs := logger.GetLogs()
+	if len(logs) != 3 {
+		t.Errorf("expected 3 log entries, got %d", len(logs))
+	}
+}
+
+// TestMiddleware_LogsCorrectStatusCode checks that different status
+// codes are captured correctly.
+func TestMiddleware_LogsCorrectStatusCode(t *testing.T) {
+	cases := []int{
+		http.StatusOK,
+		http.StatusNotFound,
+		http.StatusBadRequest,
+		http.StatusInternalServerError,
+	}
+	for _, code := range cases {
+		logger := NewRequestLogger()
+		handler := logger.Middleware()(newStatusHandler(code))
+		req := httptest.NewRequest("GET", "/", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+		logs := logger.GetLogs()
+		if logs[0].Status != code {
+			t.Errorf("expected status %d, got %d", code, logs[0].Status)
+		}
+	}
+}
+
+// TestGetLogs_ReturnsAllEntries checks that GetLogs returns all
+// captured entries.
+func TestGetLogs_ReturnsAllEntries(t *testing.T) {
+	logger := NewRequestLogger()
+	handler := logger.Middleware()(newStatusHandler(http.StatusOK))
+	paths := []string{"/", "/ascii-art", "/static/style.css"}
+	for _, path := range paths {
+		req := httptest.NewRequest("GET", path, nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+	}
+	logs := logger.GetLogs()
+	if len(logs) != 3 {
+		t.Errorf("expected 3 log entries, got %d", len(logs))
+	}
+	for i, path := range paths {
+		if logs[i].Path != path {
+			t.Errorf("entry %d: expected path %q, got %q", i, path, logs[i].Path)
+		}
+	}
+}
