@@ -422,3 +422,65 @@ func ValidateContentType(r *http.Request, expected string) error {
 	return nil
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package main
+
+import (
+	"html/template"
+	"log"
+	"net/http"
+)
+
+type application struct {
+	temple *template.Template
+}
+
+
+func RunApp(port string, templateDir string, staticDir string) error {
+
+	router := http.NewServeMux()
+
+	router.HandleFunc("/", HomeHandle)
+	router.HandleFunc("/ascii-art", AsciiArtHandle)
+
+
+	te, err := NewTemplateCache(templateDir)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+
+	app := application {
+		temple: te,
+	}
+	
+
+	fs := http.FileServer(http.Dir(staticDir))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	return http.ListenAndServe(port, LogRequest(SetDefaultHeaders(router)))
+}
+
+
+
+func HomeHandle(w http.ResponseWriter, r *http.Request)  {
+	
+}
+
+func AsciiArtHandle(w http.ResponseWriter, r *http.Request)  {
+	
+}
