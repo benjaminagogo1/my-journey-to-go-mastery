@@ -484,3 +484,25 @@ func HomeHandle(w http.ResponseWriter, r *http.Request)  {
 func AsciiArtHandle(w http.ResponseWriter, r *http.Request)  {
 	
 }
+
+package main
+
+import (
+	"net/http"
+)
+
+func StartServer(port string) error {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", indexHandle)
+	mux.HandleFunc("/ascii-art", handleAscii)
+	return http.ListenAndServe(port, mux)
+}
+
+func indexHandle(w http.ResponseWriter, r *http.Request)  {
+
+	
+}
+
+func handleAscii(w http.ResponseWriter, r *http.Request)  {
+
+}
