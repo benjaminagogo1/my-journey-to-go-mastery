@@ -706,3 +706,226 @@ func main() {
 	fmt.Println(RetainFirstHalf(""))
 	fmt.Println(RetainFirstHalf("Hello World"))
 }
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"html/template"
+	"net/http"
+)
+
+type pageData struct {
+	Result string
+	Text   string
+}
+
+type application struct {
+	AppTemplate *template.Template
+}
+
+func main() {
+	templateTemplate, err := template.ParseGlob("templates/*.html")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	appdata := application{
+		AppTemplate: templateTemplate,
+	}
+
+	http.HandleFunc("/", appdata.HomeHandler)
+	http.HandleFunc("/ascii-art", appdata.AsciiArtHandler)
+
+	fmt.Println("Server running on port: 8080")
+	http.ListenAndServe(":8080", nil)
+}
+
+func (app *application) HomeHandler(w http.ResponseWriter, r *http.Request) {
+	err := app.AppTemplate.ExecuteTemplate(w, "index.html", nil)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+}
+
+func (app *application) AsciiArtHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	if r.URL.Path != "/ascii-art" {
+		http.Error(w, "Page Not Found", http.StatusNotFound)
+		return
+	}
+
+	bannerName := r.FormValue("banner")
+	textValue := r.FormValue("text")
+
+	if textValue == "" {
+		http.Error(w, "Empty Field", http.StatusBadRequest)
+		return
+	}
+
+	bannerDir := "banners/" + bannerName
+
+	loadedbanner := LoadBanner(bannerDir)
+	if loadedbanner == nil {
+		http.Error(w, "File Not Found", http.StatusNotFound)
+		return
+	}
+	renderValue := Render(textValue, loadedbanner)
+
+	pageDataValues := pageData{
+		Result: renderValue,
+		Text:   textValue,
+	}
+	err := app.AppTemplate.ExecuteTemplate(w, "index.html", pageDataValues)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+}
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ascii-Art-Web</title>
+    <link rel="stylesheet" href="">
+    <link rel="icon" type="image/png" href="">
+</head>
+<body>
+    <div class="div1">
+        <header>
+            <h1>Ascii-Art-Web</h1>
+        </header>
+    </div>
+
+    <div class="div2">
+        <form action="/ascii-art" method="POST">
+            <div class="div3">
+                <label for="text">Enter the text. </label><br>
+                 <textarea name="text" id="text" placeholder="Enter the text here"></textarea>
+            </div>
+               <div class="div4">
+                 <select name="banner" id="banner">
+                    <option>Select a banner.</option>
+                    <option value="standard.txt">Standard</option>
+                    <option value="shadow.txt">Shadow</option>
+                    <option value="thinkertoy.txt">Thinkertoy</option>
+                </select>
+               </div>
+               <button type="submit">Generate The Art.</button>
+        </form>
+    </div>
+    <div class="div5">
+        <pre>{{ .Result }}</pre>
+    </div>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"os"
+	"strings"
+)
+
+func LoadBanner(s string) [][]string {
+	fileName, err := os.ReadFile(s)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	output := [][]string{}
+
+	content := string(fileName)
+	if content == "" {
+		fmt.Println("Empty fontFile")
+	}
+
+	blocks := strings.Split(content, "\n\n")
+
+	for _, block := range blocks {
+		if block == "" {
+			fmt.Println("Missing character")
+			return nil
+		}
+		rows := strings.Split(block, "\n")
+		if rows == nil {
+			fmt.Println("Bad File Format")
+			return nil
+		}
+		output = append(output, rows)
+	}
+	return output
+
+}
+
+
+
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func Render(s string, font [][]string) string {
+	var result strings.Builder
+
+	s = strings.ReplaceAll(s, `\n`, "\n")
+
+	words := strings.Split(s, "\n")
+
+	for _, char := range words {
+		for row := 0; row < 8; row++ {
+			for _, ch := range char {
+				index := int(ch) - 32
+				if index < 0 || index > 94 {
+					fmt.Println("Unsupported character")
+					continue
+				}
+				if index >= len(font) {
+					continue
+				}
+				result.WriteString(font[index][row])
+			}
+			result.WriteString("\n")
+		}
+	}
+	return result.String()
+
+}
