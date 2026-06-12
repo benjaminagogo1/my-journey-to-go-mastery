@@ -929,3 +929,69 @@ func Render(s string, font [][]string) string {
 	return result.String()
 
 }
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+
+func ExtractQueryParams(r *http.Request)(text string, banner string, err error)  {
+	params := r.URL.Query()
+
+	texts := params.Get("text")
+	banners := params.Get("banner")
+
+	texts = strings.TrimSpace(texts)
+
+	if texts == "" {
+		return "", "", fmt.Errorf("text is empty")
+	}
+
+	banners = strings.TrimSpace(banners)
+
+	if banners == "" {
+		banners = "standard"
+	}
+	if banners != "standard" && banners != "shadow" && banners != "thinkertoy" {
+		return "", "", fmt.Errorf("invalid banner %s", banners)
+		
+	}
+	return texts, banners, nil
+
+}
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func RespondWithArt(w http.ResponseWriter, art string, format string) {
+
+	if format != "html" && format != "text" {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	body := art
+	if format == "html" {
+		body = "<pre>" + art + "</pre>"
+		w.Header().Set("Content-Type", "text/html")
+	} else {
+		body = art
+		w.Header().Set("Content-Type", "text/plain")
+	}
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", len([]byte(body))))
+	fmt.Fprint(w, body)
+
+}
