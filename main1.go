@@ -995,3 +995,44 @@ func RespondWithArt(w http.ResponseWriter, art string, format string) {
 	fmt.Fprint(w, body)
 
 }
+
+
+
+package main
+
+import "net/http"
+
+
+
+func SetResponseHeaders(w http.ResponseWriter, contentType string, statusCode int)  {
+	if contentType == "" {
+		contentType = "text/plain"
+	}
+	w.Header().Set("Content-Type", contentType)
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	w.WriteHeader(statusCode)
+
+}
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+
+func ValidateContentType(r *http.Request, expected string) error {
+	headerValue := r.Header.Get("Content-Type")
+	if headerValue == "" {
+		return fmt.Errorf("empty header")
+	}
+	if !strings.EqualFold(headerValue, expected) {
+		return fmt.Errorf("mismatched value")
+	}
+	return nil
+
+}
