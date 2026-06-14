@@ -1036,3 +1036,151 @@ func ValidateContentType(r *http.Request, expected string) error {
 	return nil
 
 }
+
+
+
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func RespondWithArt(w http.ResponseWriter, art string, format string) {
+
+	if format != "html" && format != "text" {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	body := art
+	if format == "html" {
+		body = "<pre>" + art + "</pre>"
+		w.Header().Set("Content-Type", "text/html")
+	} else {
+		body = art
+		w.Header().Set("Content-Type", "text/plain")
+	}
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", len([]byte(body))))
+	fmt.Fprint(w, body)
+
+}
+
+
+
+
+
+package main
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+)
+
+// TestRespondWithArt_HTMLFormatSetsContentType checks that html format
+// sets Content-Type to text/html.
+func TestRespondWithArt_HTMLFormatSetsContentType(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "html")
+	contentType := w.Header().Get("Content-Type")
+	if contentType != "text/html" {
+		t.Errorf("expected Content-Type 'text/html', got %q", contentType)
+	}
+}
+
+// TestRespondWithArt_TextFormatSetsContentType checks that text format
+// sets Content-Type to text/plain.
+func TestRespondWithArt_TextFormatSetsContentType(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "text")
+	contentType := w.Header().Get("Content-Type")
+	if contentType != "text/plain" {
+		t.Errorf("expected Content-Type 'text/plain', got %q", contentType)
+	}
+}
+
+// TestRespondWithArt_HTMLFormatWrapsInPre checks that html format
+// wraps art in <pre> tags.
+func TestRespondWithArt_HTMLFormatWrapsInPre(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "html")
+	body := w.Body.String()
+	if !strings.Contains(body, "<pre>") || !strings.Contains(body, "</pre>") {
+		t.Errorf("expected <pre> tags in html output, got %q", body)
+	}
+}
+
+// TestRespondWithArt_TextFormatWritesRawArt checks that text format
+// writes art as-is without any HTML tags.
+func TestRespondWithArt_TextFormatWritesRawArt(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "text")
+	body := w.Body.String()
+	if body != "Hello Art" {
+		t.Errorf("expected raw art 'Hello Art', got %q", body)
+	}
+}
+
+// TestRespondWithArt_InvalidFormatReturns400 checks that an invalid
+// format returns 400 Bad Request.
+func TestRespondWithArt_InvalidFormatReturns400(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "invalid")
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("expected status 400, got %d", w.Code)
+	}
+}
+
+// TestRespondWithArt_EmptyFormatReturns400 checks that an empty
+// format returns 400 Bad Request.
+func TestRespondWithArt_EmptyFormatReturns400(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "")
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("expected status 400, got %d", w.Code)
+	}
+}
+
+// TestRespondWithArt_SetsContentLength checks that Content-Length
+// is set to the byte length of the response body.
+func TestRespondWithArt_SetsContentLength(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "text")
+	contentLength := w.Header().Get("Content-Length")
+	if contentLength == "" {
+		t.Error("expected Content-Length header to be set, got empty")
+	}
+	if contentLength != "9" {
+		t.Errorf("expected Content-Length '9', got %q", contentLength)
+	}
+}
+
+// TestRespondWithArt_HTMLContentLengthIncludesPreTags checks that
+// Content-Length for html format includes the <pre> tags.
+func TestRespondWithArt_HTMLContentLengthIncludesPreTags(t *testing.T) {
+	w := httptest.NewRecorder()
+	RespondWithArt(w, "Hello Art", "html")
+	contentLength := w.Header().Get("Content-Length")
+	if contentLength == "" {
+		t.Error("expected Content-Length header to be set, got empty")
+	}
+	// "Hello Art" is 9 bytes + "<pre></pre>" is 11 bytes = 20 bytes
+	if contentLength != "20" {
+		t.Errorf("expected Content-Length '20', got %q", contentLength)
+	}
+}
+
+// TestRespondWithArt_ArtAppearsInBody checks that the art content
+// appears in the response body for both formats.
+func TestRespondWithArt_ArtAppearsInBody(t *testing.T) {
+	formats := []string{"html", "text"}
+	for _, format := range formats {
+		w := httptest.NewRecorder()
+		RespondWithArt(w, "Hello Art", format)
+		if !strings.Contains(w.Body.String(), "Hello Art") {
+			t.Errorf("format %q: expected art in body, got %q", format, w.Body.String())
+		}
+	}
+}
