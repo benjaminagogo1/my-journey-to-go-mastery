@@ -2,44 +2,74 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/ok", okHandle)
-	http.HandleFunc("/notfound", notFoundHandle)
-	http.HandleFunc("/badrequest", badRequestHandle)
-	http.HandleFunc("/error", errrorHandle)
-	fmt.Println("Live")
+	http.HandleFunc("/", HomeHandle)
+	http.HandleFunc("/about", AsciiArtHandle)
+	// http.HandleFunc("/about-me", AboutMeHandle)
+	fmt.Println("Server Live on port: 8080")
 	http.ListenAndServe(":8080", nil)
 }
 
-func okHandle(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/ok" {
-		http.Error(w, "successful", 200)
+func HomeHandle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method)
+	switch r.Method {
+	case "GET":
+		if r.URL.Path != "/" {
+			http.Error(w, "Page Not Found", http.StatusNotFound)
+			return
+		}
+		tpl, err := template.ParseGlob("templates/*.html")
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+		err = tpl.ExecuteTemplate(w, "index.html", nil)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
 	}
-
 }
 
-func notFoundHandle(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/notfound" {
-		http.Error(w, "Not Found", http.StatusNotFound)
-	}
-}
-
-func badRequestHandle(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/badrequest" {
-		http.Error(w, "Bad Request", http.StatusBadRequest)
-	}
-}
-
-func errrorHandle(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/error" {
+func AsciiArtHandle(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method)
+	tpl, err := template.ParseGlob("templates/*.html")
+	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
+	templateText := r.FormValue("text")
+	if templateText == "" {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	templateFile := r.FormValue("banner")
+	if templateFile == "" {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	bannerDir := "banners/" + templateFile
+
+	loadebannerValue := LoadBanner(bannerDir)
+
+	if loadebannerValue == nil {
+		http.Error(w, "File Not Found", http.StatusNotFound)
+		return
+	}
+	renderValue := Render(templateText, loadebannerValue)
+
+	err = tpl.ExecuteTemplate(w, "index.html", renderValue)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
 }
 
-// curl -i http://localhost:8080/ok 
-// curl -i http://localhost:8080/notfound
-// curl -i http://localhost:8080/badrequest
-// curl -i http://localhost:8080/error
+// func AboutMeHandle(w http.ResponseWriter, r *http.Request) {
+
+// }
