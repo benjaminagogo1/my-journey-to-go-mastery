@@ -12,6 +12,7 @@ func main() {
 	http.HandleFunc("/hello", HelloHandle)
 	http.HandleFunc("/count", CountHandle)
 	http.HandleFunc("/calculate", CalculateHandle)
+	http.HandleFunc("/agent", agentHandle)
 	http.HandleFunc("/dashboard", dashboardHandle)
 	http.HandleFunc("/legacy", legacyHandle)
 	http.HandleFunc("/v2", redirectHandle)
@@ -90,6 +91,20 @@ func CalculateHandle(w http.ResponseWriter, r *http.Request) {
 
 	}
 }
+
+
+func agentHandle(w http.ResponseWriter, r *http.Request) {
+	headerValue := r.Header.Get("User-Agent")
+	if headerValue == "" {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	} else {
+		fmt.Fprint(w, headerValue)
+	}
+
+}
+
+
 
 func dashboardHandle(w http.ResponseWriter, r *http.Request) {
 	headerValue := r.Header.Get("X-API-Key")
