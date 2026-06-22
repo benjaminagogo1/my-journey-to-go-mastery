@@ -109,14 +109,14 @@ func agentHandle(w http.ResponseWriter, r *http.Request) {
 func dashboardHandle(w http.ResponseWriter, r *http.Request) {
 	headerValue := r.Header.Get("X-API-Key")
 	if headerValue != "secret123" {
-		http.Error(w, "Unauthorized", 401)
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 	fmt.Fprint(w, "Welcome")
 }
 
 func legacyHandle(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/v2", 301)
+	http.Redirect(w, r, "/v2", http.StatusMovedPermanently)
 }
 
 func redirectHandle(w http.ResponseWriter, r *http.Request) {
