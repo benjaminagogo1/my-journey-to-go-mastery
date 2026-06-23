@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func Exercises() {
 	http.HandleFunc("/ping", pingHandle)
 	http.HandleFunc("/hello", HelloHandle)
 	http.HandleFunc("/count", CountHandle)
