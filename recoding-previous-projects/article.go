@@ -26,7 +26,7 @@ func fixArticle(str string) string {
 }
 
 
-func main()  {
+func mai()  {
 	fmt.Println(fixArticle("a awesome"))
 	// fmt.Println(fixQuote(''))
 	// fmt.Println(Conversion("10 (bin)"))
