@@ -7,23 +7,42 @@ import (
 )
 
 
+// func fixArticle(str string) string {
+// 	words := strings.Fields(str)
+	
+// 	for i := 0; i < len(words)-1; i ++ {
+// 		isVowel := strings.ContainsAny("AEIOUHaeiouh", string(words[i+1][0]))
+// 		if words[i] == "A" && isVowel {
+// 			words[i] = "An"
+// 		}else if words[i] == "An" && !isVowel {
+// 			words[i] = "A"
+// 		}else if words[i] == "a" && isVowel {
+// 			words[i] = "an"
+// 		}else if words[i] == "an" && !isVowel {
+// 			words[i] = "a"
+// 		}
+// 	}
+// 	return strings.Join(words, " ")
+// }
+
 func fixArticle(str string) string {
 	words := strings.Fields(str)
-	
-	for i := 0; i < len(words)-1; i ++ {
-		isVowel := strings.ContainsAny("AEIOUHaeiouh", string(words[i+1][0]))
-		if words[i] == "A" && isVowel {
+	for i := 0; i < len(words); i++{
+		isVowel := strings.ContainsAny("AOIUEHaeoiuh", string(words[i+1][0]))
+		switch {
+		case isVowel && words[i] == "A":
 			words[i] = "An"
-		}else if words[i] == "An" && !isVowel {
+		case !isVowel && words[i] == "An":
 			words[i] = "A"
-		}else if words[i] == "a" && isVowel {
+		case isVowel && words[i] == "a":
 			words[i] = "an"
-		}else if words[i] == "an" && !isVowel {
+		case !isVowel && words[i] == "an":
 			words[i] = "a"
 		}
 	}
 	return strings.Join(words, " ")
 }
+
 
 
 func mai()  {
