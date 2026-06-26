@@ -6,10 +6,9 @@ import (
 	"strings"
 )
 
-
 // func fixArticle(str string) string {
 // 	words := strings.Fields(str)
-	
+
 // 	for i := 0; i < len(words)-1; i ++ {
 // 		isVowel := strings.ContainsAny("AEIOUHaeiouh", string(words[i+1][0]))
 // 		if words[i] == "A" && isVowel {
@@ -27,7 +26,7 @@ import (
 
 func fixArticle(str string) string {
 	words := strings.Fields(str)
-	for i := 0; i < len(words); i++{
+	for i := 0; i < len(words); i++ {
 		isVowel := strings.ContainsAny("AOIUEHaeoiuh", string(words[i+1][0]))
 		switch {
 		case isVowel && words[i] == "A":
@@ -43,21 +42,18 @@ func fixArticle(str string) string {
 	return strings.Join(words, " ")
 }
 
-
-
-func mai()  {
-	fmt.Println(fixArticle("a awesome"))
+func mai() {
+	// fmt.Println(fixArticle("a awesome"))
 	// fmt.Println(fixQuote(''))
 	// fmt.Println(Conversion("10 (bin)"))
 	// fmt.Println(Conversion("1E (hex)"))
-	// fmt.Println(FixPunc("hello  ? .  ,  "))
+	fmt.Println(FixPunc("hello  ? .  ,  "))
 	// http.HandleFunc("/", HomeHandle)
 	// http.HandleFunc("/count", countHandle)
 	// http.HandleFunc("/come", comeHandle)
 	// fmt.Println("Server is Live....")
 	// http.ListenAndServe(":8080", nil)
-	fmt.Println(caseTransformation("This is so exciting (up, 2)"))
-	fmt.Println(caseTransformation("i am jhfine hgnmncare exciting (cap, 5)"))
+	// fmt.Println(caseTransformation("This is so exciting (up, 2)"))
+	// fmt.Println(caseTransformation("i am jhfine hgnmncare exciting (cap, 5)"))
 
-	
 }

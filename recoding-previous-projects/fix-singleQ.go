@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"strings"
 )
 
@@ -31,30 +31,30 @@ func doubleQuote(st string) string {
 
 
 
-func main() {
+// func main() {
 	// str := "Hello   'world'    today"
 	// st := "   one   'two'   three   'four'   "
 	// b := "sfrb '' ijf"
 	// a := "hello '   world   '"
 	// c := "'a''b'"
 	// r := "' hello"
-	// k := "' hello'world"
-	// bt := "hello'"
-	tee := `'a''b'`
-	for i, r := range tee {
-		fmt.Printf("index =%v value= %c\n", i+1, r)
-	}
-	// fmt.Println(fixQuote(str))
-	// fmt.Println(fixQuote(st))
-	// fmt.Println(fixQuote(b))
-	// fmt.Println(fixQuote(a))
-	// fmt.Println(fixQuote(c))
-	// fmt.Println(fixQuote(r))
-	// fmt.Println(fixQuote(k))
-	// fmt.Println(fixQuote(bt))
-	// fmt.Println(len(tee))
-	fmt.Println(fixQuote("As Elton John said: ' I am the most well-known homosexual in the world '"))
-}
+// 	// k := "' hello'world"
+// 	// bt := "hello'"
+// 	tee := `'a''b'`
+// 	for i, r := range tee {
+// 		fmt.Printf("index =%v value= %c\n", i+1, r)
+// 	}
+// 	// fmt.Println(fixQuote(str))
+// 	// fmt.Println(fixQuote(st))
+// 	// fmt.Println(fixQuote(b))
+// 	// fmt.Println(fixQuote(a))
+// 	// fmt.Println(fixQuote(c))
+// 	// fmt.Println(fixQuote(r))
+// 	// fmt.Println(fixQuote(k))
+// 	// fmt.Println(fixQuote(bt))
+// 	// fmt.Println(len(tee))
+// 	fmt.Println(fixQuote("As Elton John said: ' I am the most well-known homosexual in the world '"))
+// }
 
 // hello'world
 
