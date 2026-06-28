@@ -1,11 +1,11 @@
 package main
 
-func main() {
-	ben := artists {
-		"name": "ben",
-		"members": [
-			"h",
-			"t",
-		]
-	}
+
+type Artists struct{
+	ID int
+	Name string
+	Image string
+	Member []string
+	CreationDate int
+	FirstAlbum string
 }
