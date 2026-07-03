@@ -51,11 +51,15 @@ func main() {
 
 	if len(flag) != 2 {
 		fmt.Println("invalid color format")
+		fmt.Println("Usage: go run . [OPTION] [STRING]")
+        fmt.Println("EX: go run . --color=<color> <substring to be colored> something")
 		return
 	}
 
 	if flag[1] == "" {
 		fmt.Println("invalid color")
+		fmt.Println("Usage: go run . [OPTION] [STRING]")
+        fmt.Println("EX: go run . --color=<color> <substring to be colored> something")
 		return
 	}
 

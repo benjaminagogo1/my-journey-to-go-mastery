@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func render(colorName, substr, userInput string, font [][]string) string {
+func render(colorName, substr, userInput string, font map[rune][]string) string {
 	if userInput == "" {
 		return userInput
 	}
@@ -19,17 +19,18 @@ func render(colorName, substr, userInput string, font [][]string) string {
 	for _, char := range words {
 		for rows := 0; rows < 8; rows++{
 			for i, ch := range char {
-				index := int(ch) - 32
+
+
 				if strings.HasPrefix(char[i:], substr) {
 					lengthOfSubstr = len(substr)
 				}
 				if lengthOfSubstr > 0 {
 					result.WriteString(colorName)
-					result.WriteString(font[index][rows])
+					result.WriteString(font[ch][rows])
 					result.WriteString("\033[0m")
 					lengthOfSubstr --
 				}else {
-					result.WriteString(font[index][rows])
+					result.WriteString(font[ch][rows])
 				}
 			}
 			result.WriteString("\n")

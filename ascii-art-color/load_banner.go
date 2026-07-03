@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func loadbanner(fileName string) [][]string {
+func loadbanner(fileName string) map[rune][]string {
 	file, err := os.ReadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
@@ -15,13 +15,14 @@ func loadbanner(fileName string) [][]string {
 
 	content := string(file)
 
-	output := [][]string{}
+	output := map[rune][]string{}
 
-	blocks := strings.Split(content, "\n\n")
+	blocks := strings.Split(content, "\n")
 
-	for _, block := range blocks {
-		rows := strings.Split(block, "\n")
-		output = append(output, rows)
+	for x := ' '; x <= '~'; x++ {
+		index := int(x-' ') * 9
+		output[x] = blocks[index+1 : index+9]
 	}
+
 	return output
 }
