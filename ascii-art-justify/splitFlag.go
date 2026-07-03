@@ -25,9 +25,3 @@ func splitFlag(flag string) (string, error) {
 	return validTypevalue, nil
 }
 
---align
---align=right
-
---align=
-
---align=
