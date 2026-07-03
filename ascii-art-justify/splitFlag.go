@@ -7,9 +7,7 @@ import (
 
 func splitFlag(flag string) (string, error) {
 	if !strings.HasPrefix(flag, "--align=") {
-		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
-		fmt.Println("Example: go run . --align=right something standard")
-		return flag, fmt.Errorf("")
+		return "", fmt.Errorf("")
 	}
 	result := strings.Split(flag, "=")
 

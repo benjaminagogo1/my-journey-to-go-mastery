@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
 )
 
 func main()  {
 	if len(os.Args) < 2 || len(os.Args) > 4 {
 		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
-		fmt.Println("Example: go run . --align=right something standard")
+		fmt.Println("Example: go run . --align=<type> something standard")
 		return
 	}
 
@@ -28,13 +29,23 @@ func main()  {
 	CorrectAlignType, err := splitFlag(alignType)
 	if err != nil {
 		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
-		fmt.Println("Example: go run . --align=right something standard")
+		fmt.Println("Example: go run . --align=<type> something standard")
 		return
 	}
-	
 	loadebannerValue := Loadbanner(fileName)
+	switch CorrectAlignType {
+	case "right":
+		fmt.Println(renderArtToRight(userInput, loadebannerValue))
+	case "left":
+		fmt.Println(renderArtToLeft(userInput, loadebannerValue))
 
-	renderResult := render(userInput, loadebannerValue)
-
+	case "center":
+		fmt.Println(centerAsciiArt(userInput, loadebannerValue))
+	default:
+		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
+		fmt.Println("Example: go run . --align=<type> something standard")
+		fmt.Println("Replace <type> with any of these; `right`, `center`, `left`")
+	}
 
 }
+
