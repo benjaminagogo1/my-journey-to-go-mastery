@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 )
@@ -8,6 +9,7 @@ import (
 func loadbanner(fileName string) [][]string {
 	file, err := os.ReadFile(fileName)
 	if err != nil {
+		fmt.Println(err)
 		return nil
 	}
 

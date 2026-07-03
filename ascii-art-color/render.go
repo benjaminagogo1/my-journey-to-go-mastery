@@ -1,37 +1,34 @@
 package main
 
-import "strings"
+import (
+	// "fmt"
+	"strings"
+)
 
 func render(colorName, substr, userInput string, font [][]string) string {
 	if userInput == "" {
 		return userInput
 	}
-	colors := map[string]string{
-		"red":    "\033[31m",
-		"green":  "\033[32m",
-		"blue":   "\033[34m",
-		"yellow": "\033[33m",
-	}
-	colorNam := colors[colorName]
-
 	userInput = strings.ReplaceAll(userInput, `\n`, "\n")
 
 	var result strings.Builder
 
 	words := strings.Split(userInput, "\n")
 
-	start := strings.Index(userInput, substr)
-	end := start + len(substr)
-
+	lengthOfSubstr := 0
 	for _, char := range words {
-		for rows := 0; rows < 8; rows++ {
+		for rows := 0; rows < 8; rows++{
 			for i, ch := range char {
 				index := int(ch) - 32
-				if index < 0 || index > 94 {
-					continue
+				if strings.HasPrefix(char[i:], substr) {
+					lengthOfSubstr = len(substr)
 				}
-				if i >= start && i < end {
-					result.WriteString(colorNam)
+				if lengthOfSubstr > 0 {
+					result.WriteString(colorName)
+					result.WriteString(font[index][rows])
+					result.WriteString("\033[0m")
+					lengthOfSubstr --
+				}else {
 					result.WriteString(font[index][rows])
 				}
 			}

@@ -37,7 +37,6 @@ func main() {
 		fmt.Println("Usage: go run . [OPTION] [STRING]")
 		return
 	}
-	fileName := "standard.txt"
 
 	colors := map[string]string{
 		"red":    "\033[31m",
@@ -73,36 +72,36 @@ func main() {
 	banner = "standard.txt"
 	text = ""
 	substr = ""
-	colorName = realColorName
-
+	colorName = value
+	
 	switch {
 	case len(os.Args) == 3:
-		colorName = realColorName
+		colorName = value
 		text = os.Args[2]
-
-		loadbannerValue := loadbanner(fileName)
-		
-		fmt.Println(value, ok)
-		fmt.Println(text)
-		fmt.Println(banner)
-		fmt.Println(render(colorName, substr, text, loadbannerValue))
+		substr = text
 
 	case len(os.Args) == 4:
-		colorName= realColorName
+		colorName= value
 		substr = os.Args[2]
 		text = os.Args[3]
-		loadbannerValue := loadbanner(fileName)
-		fmt.Println(render(colorName, substr, text, loadbannerValue))
-
+		
 	case len(os.Args) == 5:
-		colorName = realColorName
+		colorName = value
 		substr = os.Args[2]
 		text = os.Args[3]
-		fmt.Println(text)
 		banner = os.Args[4]
-		loadbannerValue := loadbanner(fileName)
-		fmt.Println(render(colorName, substr, text, loadbannerValue))
-
 	}
+
+	if banner != "standard.txt" &&
+		banner != "shadow.txt" &&
+		banner != "thinkertoy.txt" {
+		fmt.Println("invalid banner input")
+		return
+	}
+
+
+	loadbannerValue := loadbanner(banner)
+	fmt.Println(render(colorName, substr, text, loadbannerValue))
+
 
 }
