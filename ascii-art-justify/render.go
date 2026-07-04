@@ -129,7 +129,7 @@ func justifyAsciiArt(str string, font map[rune][]string) string {
 			for _, ch := range word {
 				result.WriteString(font[ch][rows])
 			}
-			if i != len(words)-1 {
+			if i != len(word)-1 {
 				result.WriteString(strings.Repeat(" ", spacesPerGap))
 			}
 			
@@ -140,6 +140,66 @@ func justifyAsciiArt(str string, font map[rune][]string) string {
 }
 
 
+
+
+
+
+
+
+
+
+// func justifyAsciiArt(str string, font map[rune][]string) string {
+// 	if str == "" {
+// 		return str
+// 	}
+
+// 	terminalWidth, _, err := term.GetSize(int(os.Stdout.Fd()))
+// 	if err != nil {
+// 		terminalWidth = 80
+// 	}
+
+// 	words := strings.Fields(str)
+
+// 	// If there's only one word, justification isn't possible.
+// 	if len(words) == 1 {
+// 		return asciiArt(words[0], font)
+// 	}
+
+// 	gaps := len(words) - 1
+
+// 	// Calculate the width of the words only (no spaces).
+// 	artWidth := 0
+// 	for _, word := range words {
+// 		artWidth += bannerWidth(word, font)
+// 	}
+
+// 	remaining := terminalWidth - artWidth
+// 	spacesPerGap := remaining / gaps
+// 	extraSpaces := remaining % gaps
+
+// 	var result strings.Builder
+
+// 	for row := 0; row < 8; row++ {
+// 		for i, word := range words {
+// 			for _, ch := range word {
+// 				result.WriteString(font[ch][row])
+// 			}
+
+// 			if i < gaps {
+// 				gapWidth := spacesPerGap
+// 				if i < extraSpaces {
+// 					gapWidth++
+// 				}
+// 				result.WriteString(strings.Repeat(" ", gapWidth))
+// 			}
+// 		}
+// 		result.WriteByte('\n')
+// 	}
+
+// 	return result.String()
+// }
+
+// If there's only one word, justification isn't possible.
 
 // between them.
 
