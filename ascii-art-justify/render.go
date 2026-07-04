@@ -8,9 +8,7 @@ import (
 	"golang.org/x/term"
 )
 
-
-
-func renderArtToLeft(str string, font map[rune][]string)  string {
+func renderArtToLeft(str string, font map[rune][]string) string {
 	if str == "" {
 		return str
 	}
@@ -23,9 +21,9 @@ func renderArtToLeft(str string, font map[rune][]string)  string {
 	}
 	var result strings.Builder
 	artwidth := bannerWidth(str, font)
-	spaces := (terminalWidth - artwidth)/800
+	spaces := (terminalWidth - artwidth) / 800
 
-	for rows := 0; rows < 8; rows++{
+	for rows := 0; rows < 8; rows++ {
 		fmt.Println(rows)
 		if spaces > 0 {
 			result.WriteString(strings.Repeat(" ", spaces))
@@ -42,10 +40,7 @@ func renderArtToLeft(str string, font map[rune][]string)  string {
 	return result.String()
 }
 
-
-
-
-func renderArtToRight(str string, font map[rune][]string)  string {
+func renderArtToRight(str string, font map[rune][]string) string {
 	if str == "" {
 		return str
 	}
@@ -60,7 +55,7 @@ func renderArtToRight(str string, font map[rune][]string)  string {
 	artwidth := bannerWidth(str, font)
 	spaces := (terminalWidth - artwidth)
 
-	for rows := 0; rows < 8; rows++{
+	for rows := 0; rows < 8; rows++ {
 		if spaces > 0 {
 			result.WriteString(strings.Repeat(" ", spaces))
 		}
@@ -72,7 +67,6 @@ func renderArtToRight(str string, font map[rune][]string)  string {
 	}
 	return result.String()
 }
-
 
 func centerAsciiArt(str string, font map[rune][]string) string {
 	if str == "" {
@@ -86,7 +80,7 @@ func centerAsciiArt(str string, font map[rune][]string) string {
 		terminalWidth = 80
 	}
 	artWidth := bannerWidth(str, font)
-	spaces := (terminalWidth - artWidth)/2
+	spaces := (terminalWidth - artWidth) / 2
 
 	var result strings.Builder
 
@@ -102,189 +96,53 @@ func centerAsciiArt(str string, font map[rune][]string) string {
 	return result.String()
 }
 
-
-
-
-
 func justifyAsciiArt(str string, font map[rune][]string) string {
 	if str == "" {
 		return str
 	}
 
-	str = strings.ReplaceAll(str, `\n`, "\n")
-
 	terminalWidth, _, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		terminalWidth = 80
 	}
+
 	words := strings.Fields(str)
-	gap := len(words)-1
-	artWidth := bannerWidth(str, font)
-	spaces := terminalWidth - artWidth
-	spacesPerGap := spaces/gap
+
+	// If there's only one word, justification isn't possible.
+	if len(words) == 1 {
+		return renderArtToLeft(words[0], font)
+	}
+
+	gaps := len(words) - 1
+
+	// Calculate the width of the words only (no spaces).
+	artWidth := 0
+	for _, word := range words {
+		artWidth += bannerWidth(word, font)
+	}
+
+	remaining := terminalWidth - artWidth
+	spacesPerGap := remaining / gaps
+	extraSpaces := remaining % gaps
 
 	var result strings.Builder
-	for rows := 0; rows < 8; rows ++{
+
+	for row := 0; row < 8; row++ {
 		for i, word := range words {
 			for _, ch := range word {
-				result.WriteString(font[ch][rows])
+				result.WriteString(font[ch][row])
 			}
-			if i != len(word)-1 {
-				result.WriteString(strings.Repeat(" ", spacesPerGap))
+
+			if i < gaps {
+				gapWidth := spacesPerGap
+				if i < extraSpaces {
+					gapWidth++
+				}
+				result.WriteString(strings.Repeat(" ", gapWidth))
 			}
-			
 		}
-		result.WriteString("\n")
+		result.WriteByte('\n')
 	}
+
 	return result.String()
 }
-
-
-
-
-
-
-
-
-
-
-// func justifyAsciiArt(str string, font map[rune][]string) string {
-// 	if str == "" {
-// 		return str
-// 	}
-
-// 	terminalWidth, _, err := term.GetSize(int(os.Stdout.Fd()))
-// 	if err != nil {
-// 		terminalWidth = 80
-// 	}
-
-// 	words := strings.Fields(str)
-
-// 	// If there's only one word, justification isn't possible.
-// 	if len(words) == 1 {
-// 		return asciiArt(words[0], font)
-// 	}
-
-// 	gaps := len(words) - 1
-
-// 	// Calculate the width of the words only (no spaces).
-// 	artWidth := 0
-// 	for _, word := range words {
-// 		artWidth += bannerWidth(word, font)
-// 	}
-
-// 	remaining := terminalWidth - artWidth
-// 	spacesPerGap := remaining / gaps
-// 	extraSpaces := remaining % gaps
-
-// 	var result strings.Builder
-
-// 	for row := 0; row < 8; row++ {
-// 		for i, word := range words {
-// 			for _, ch := range word {
-// 				result.WriteString(font[ch][row])
-// 			}
-
-// 			if i < gaps {
-// 				gapWidth := spacesPerGap
-// 				if i < extraSpaces {
-// 					gapWidth++
-// 				}
-// 				result.WriteString(strings.Repeat(" ", gapWidth))
-// 			}
-// 		}
-// 		result.WriteByte('\n')
-// 	}
-
-// 	return result.String()
-// }
-
-// If there's only one word, justification isn't possible.
-
-// between them.
-
-// Compute
-
-// totalWidth =
-// width(We) +
-// width(will) +
-// width(explain!)
-
-// Notice that do not count the spaces yet.
-
-// Then
-
-// remainingSpace = terminalWidth - totalWidth
-
-// Now divide the remaining space among the gaps.
-
-// spacesPerGap = remainingSpace / numberOfGaps
-// extraSpaces = remainingSpace % numberOfGaps
-
-// If
-
-// remainingSpace = 23
-// gaps = 2
-
-// then
-
-// spacesPerGap = 11
-// extraSpaces = 1
-
-// So you print
-
-// gap1 = 12 spaces
-// gap2 = 11 spaces
-
-// The first gaps receive the extra spaces.
-
-// Example
-
-// Suppose
-
-// terminal = 30
-
-// word widths
-
-// We        = 4
-// will      = 8
-// explain   = 10
-
-// Total
-
-// 4 + 8 + 10 = 22
-
-// Remaining
-
-// 30 - 22 = 8
-
-// There are
-
-// 2 gaps
-
-// Each gets
-
-// 8 / 2 = 4
-
-// So you print
-
-// We____will____explain
-
-// (where _ means spaces)
-
-// Notice something important:
-
-// If there is only one word, there are zero gaps.
-
-// How can you justify a single word?
-
-
-
-// Most implementations simply print it as left aligned.
-
-// I wouldn't start coding this immediately. The first thing I'd implement is a function that, given:
-
-// terminal width,
-// widths of the ASCII-art words,
-
-// returns how many spaces should go after each word. Once that logic works, plugging it into your 8-row ASCII-art rendering becomes much easier.
