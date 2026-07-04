@@ -1,7 +1,8 @@
-package main 
+package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main()  {
@@ -12,5 +13,9 @@ func main()  {
 	for t := 'a'; t <= 'z'; t++{
 		fmt.Printf("%c\n", t)
 	}
+
+	fmt.Println((os.Stdout.Fd()))
+	fmt.Println(os.Stderr.Fd())
+	fmt.Println(os.Stdin.Fd())
 }
 
