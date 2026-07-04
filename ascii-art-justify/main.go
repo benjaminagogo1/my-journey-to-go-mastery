@@ -41,6 +41,8 @@ func main()  {
 
 	case "center":
 		fmt.Println(centerAsciiArt(userInput, loadebannerValue))
+	case "justify":
+		fmt.Print(justifyAsciiArt(userInput, loadebannerValue))
 	default:
 		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
 		fmt.Println("Example: go run . --align=<type> something standard")
