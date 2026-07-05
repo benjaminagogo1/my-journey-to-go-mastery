@@ -17,5 +17,9 @@ func main()  {
 	fmt.Println((os.Stdout.Fd()))
 	fmt.Println(os.Stderr.Fd())
 	fmt.Println(os.Stdin.Fd())
+
+
+
+	
 }
 
