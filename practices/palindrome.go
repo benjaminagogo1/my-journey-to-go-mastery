@@ -31,3 +31,9 @@ func main() {
 		fmt.Printf("'%s' = %t\n", word, result)	
 	}
 }
+
+
+docker --name ascii-web ascii-art-web
+
+docker rm
+docker run -p 8080:8080 ascii-art-web
