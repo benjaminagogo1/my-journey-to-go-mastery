@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -22,12 +23,11 @@ func isPalindrome(s string) bool {
 	return true
 }
 
-// func main() {
-// 	// Test cases
-// 	examples := []string{"racecar", "hello", "A man a plan a canal Panama"}
+func main() {
+	examples := []string{"racecar", "hello", "A man a plan a canal Panama"}
 
-// 	for _, word := range examples {
-// 		result := isPalindrome(word)
-// 		fmt.Printf("'%s' = %t\n", word, result)
-// 	}
-// }
+	for _, word := range examples {
+		result := isPalindrome(word)
+		fmt.Printf("'%s' = %t\n", word, result)	
+	}
+}
