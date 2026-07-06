@@ -20,18 +20,27 @@ type Artists struct {
 func main() {
 	url := "https://groupietrackers.herokuapp.com/api/artists/1"
 	
-	response, err := http.Get(url)
+	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
+	
+	defer resp.Body.Close()
 
-	defer response.Body.Close()
-
-	if response.StatusCode == http.StatusOK {
-		body, err := io.ReadAll(response.Body)
-		if err != nil {
-			log.Fatal(err)
-		}
-		
+	if resp.StatusCode != http.StatusOK {
+		return
 	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+
+	var artists []Artists
+
+	err = json.Unmarshal(body, &artists)
+	if err != nil {
+		return
+	}
+	fmt.Println(artists)
 }
