@@ -17,3 +17,8 @@ LABEL author ="Benjamin Agogo"
 docker inspect 
 
 docker inspect ascii-art-web
+
+
+# .dockerignore
+means "do not send this files when building the image"
+
